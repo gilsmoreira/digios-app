@@ -24,15 +24,21 @@ class APIConfig {
     return url;
   }
 
-  static Future<void> initBaseURL() async {
+    static Future<void> initBaseURL() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? stored = prefs.getString('baseURL');
+    
     if (stored != null) {
       baseURL = _normalizeURL(stored);
       if (baseURL != stored) {
         await prefs.setString('baseURL', baseURL!);
       }
+    } else {
+      // Define a URL padrão da Demo DigiOS
+      baseURL = _normalizeURL('https://digios.diferencialdigital.net.br/index.php/api/v1');
+      await prefs.setString('baseURL', baseURL!);
     }
+  }
   }
 
   static Future<void> updateBaseURL(String url) async {
